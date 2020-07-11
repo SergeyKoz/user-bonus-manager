@@ -26,6 +26,18 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['username'], 'required'],
+            [['modified_at', 'created_at'], 'integer'],
+            [['balance'], 'number']
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function behaviors()
@@ -38,6 +50,20 @@ class User extends ActiveRecord implements IdentityInterface
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['modified_at'],
                 ]
             ]
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'User Name',
+            'balance' => 'Balance',
+            'modified_at' => 'Modified',
+            'created_at' => 'Created',
         ];
     }
 

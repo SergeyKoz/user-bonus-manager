@@ -34,7 +34,7 @@ $this->title = 'My Yii Application';
             [
                 'attribute' => 'created_at',
                 'value' => function ($model) {
-                    return Yii::$app->formatter->asDate($model->modified_at, 'php:Y-m-d Y H:i:s');
+                    return Yii::$app->formatter->asDate($model->created_at, 'php:Y-m-d Y H:i:s');
                 },
                 'filter' => false
             ],
