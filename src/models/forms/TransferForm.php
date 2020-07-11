@@ -24,12 +24,12 @@ class TransferForm extends Model
     private User $fromUser;
     private User $toUser;
 
-    public int $from;
-    public int $to;
+    public string $from;
+    public string $to;
     public float $sum = 0;
-    public string $description;
+    public ?string $description = null;
 
-    public function __construct(User $from, $to, TransferServiceInterface $transferService, $config = [])
+    public function __construct(string $from, string $to, TransferServiceInterface $transferService, array $config = [])
     {
         $this->from = $from;
         $this->to = $to;

@@ -4,6 +4,11 @@ namespace tests\unit\models;
 
 use app\models\User;
 
+/**
+ * Class UserTest
+ * @package tests\unit\models
+ * ./vendor/bin/codecept run unit models/UserTest
+ */
 class UserTest extends \Codeception\Test\Unit
 {
     public function testFindUserById()
@@ -12,6 +17,7 @@ class UserTest extends \Codeception\Test\Unit
         expect($user->username)->equals('admin');
 
         expect_not(User::findIdentity(999));
+
     }
 
     public function testFindUserByAccessToken()

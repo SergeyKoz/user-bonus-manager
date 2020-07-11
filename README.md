@@ -31,7 +31,7 @@ docker exec user-bonus-manager-php /bin/sh -lc "composer install"
 ```
 - Database initialization
 ```bash
-docker exec user-bonus-manager-php /bin/sh -lc "php yii migrate"
+docker exec user-bonus-manager-php /bin/sh -lc "php yii migrate --interactive=0"
 ```
 
 The application is allowed by address [http://127.0.0.1:80](http://127.0.0.1:80/)

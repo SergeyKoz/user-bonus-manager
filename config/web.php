@@ -5,7 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'basePath' => dirname(__DIR__). '/src',
+    'basePath' => dirname(__DIR__) . '/src',
     'runtimePath' => dirname(__DIR__) . '/runtime',
     'vendorPath' => dirname(__DIR__) . '/vendor',
     'bootstrap' => ['log'],

@@ -7,10 +7,17 @@ $db = require __DIR__ . '/test_db.php';
  */
 return [
     'id' => 'basic-tests',
-    'basePath' => dirname(__DIR__),
+    'basePath' => dirname(__DIR__) . '/src',
+    'runtimePath' => dirname(__DIR__) . '/runtime',
+    'vendorPath' => dirname(__DIR__) . '/vendor',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+    ],
+    'container' => [
+        'definitions' => [
+            'app\services\TransferServiceInterface' => 'app\services\MoneyTransferService'
+        ]
     ],
     'language' => 'en-US',
     'components' => [
