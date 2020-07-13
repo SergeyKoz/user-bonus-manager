@@ -11,26 +11,25 @@ use yii\filters\VerbFilter;
 use app\models\forms\LoginForm;
 use app\models\forms\TransferForm;
 use app\models\search\UserSearch;
-use app\models\User;
-use app\services\TransferServiceInterface;
+use app\services\TransferFormFactory;
 
 class SiteController extends Controller
 {
     /**
-     * @var TransferServiceInterface Money transfer service
+     * @var TransferFormFactory Money transfer service
      */
-    private TransferServiceInterface $transferService;
+    private TransferFormFactory $transferFormFactory;
 
     /**
      * SiteController constructor.
      * @param $id
      * @param $module
-     * @param TransferServiceInterface $transferService
+     * @param TransferFormFactory $transferFormFactory
      * @param array $config
      */
-    public function __construct($id, $module, TransferServiceInterface $transferService, $config = [])
+    public function __construct($id, $module, TransferFormFactory $transferFormFactory, $config = [])
     {
-        $this->transferService = $transferService;
+        $this->transferFormFactory = $transferFormFactory;
         parent::__construct($id, $module, $config);
     }
 
@@ -131,10 +130,8 @@ class SiteController extends Controller
     public function actionReplenish($id)
     {
         $post = Yii::$app->request->post();
-        $model = new TransferForm(
-            $this->findModel(Yii::$app->user->id)->username,
-            $this->findModel($id)->username,
-            $this->transferService);
+
+        $model = $this->transferFormFactory->Create(Yii::$app->user->id, $id);
         $model->scenario = TransferForm::SCENARIO_REPLENISH;
 
         if ($model->load($post) && $model->validate() && $model->transfer()) {
@@ -156,10 +153,8 @@ class SiteController extends Controller
     public function actionWithdraw($id)
     {
         $post = Yii::$app->request->post();
-        $model = new TransferForm(
-            $this->findModel($id)->username,
-            $this->findModel(Yii::$app->user->id)->username,
-            $this->transferService);
+
+        $model = $this->transferFormFactory->Create($id, Yii::$app->user->id);
         $model->scenario = TransferForm::SCENARIO_WITHDRAW;
 
         if ($model->load($post) && $model->validate() && $model->transfer()) {
@@ -170,21 +165,5 @@ class SiteController extends Controller
                 'model' => $model
             ]);
         }
-    }
-
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
